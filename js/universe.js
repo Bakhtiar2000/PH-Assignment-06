@@ -24,7 +24,7 @@ const displayAiInformation= (info)=>{
         seeMoreButton.classList.add('d-none');
     }
     info.forEach(data => {
-        console.log(data);
+        // console.log(data);
         
         const boxDiv= document.createElement('div');
         boxDiv.classList.add('col');
@@ -45,7 +45,7 @@ const displayAiInformation= (info)=>{
                             <p>${data.name}</p>
                             <p><i class="fa-regular fa-calendar-days"></i> ${data.published_in}</p>
                         </div>
-                        <button class="button"><i class="fa-solid fa-arrow-right"></i></button>
+                        <button onclick= "loadAiInformationById('${data.id}')" class="button"><i class="fa-solid fa-arrow-right"></i></button>
                     </div>
                 </div>
             </div>
@@ -76,3 +76,23 @@ const toggleSpinner = isLoading => {
 }
 
 loadAiInformation();
+
+
+
+const loadAiInformationById= async(id)=> {
+    try{
+        const url= `https://openapi.programming-hero.com/api/ai/tool/${id}`;
+
+        const res= await fetch(url);
+        const data= await res.json();
+        displayAiInformationById(data.data);
+    }
+    catch(error){
+        console.log(error);
+    }
+}
+
+const displayAiInformationById= (info)=>{
+    console.log(info.description);
+}
+
