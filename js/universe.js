@@ -24,7 +24,7 @@ const displayAiInformation= (info)=>{
         seeMoreButton.classList.add('d-none');
     }
     info.forEach(data => {
-        // console.log(data);
+        console.log(data.id);
         
         const boxDiv= document.createElement('div');
         boxDiv.classList.add('col');
@@ -45,7 +45,7 @@ const displayAiInformation= (info)=>{
                             <p>${data.name}</p>
                             <p><i class="fa-regular fa-calendar-days"></i> ${data.published_in}</p>
                         </div>
-                        <button onclick= "loadAiInformationById('${data.id}')" class="button"><i class="fa-solid fa-arrow-right"></i></button>
+                        <button onclick= "loadAiInformationById('${data.id}')" href="#" class="button" data-bs-toggle="modal" data-bs-target="#aiDetailModal"><i class="fa-solid fa-arrow-right"></i></button>
                     </div>
                 </div>
             </div>
@@ -93,6 +93,46 @@ const loadAiInformationById= async(id)=> {
 }
 
 const displayAiInformationById= (info)=>{
-    console.log(info.description);
+    console.log(info.features[1]);
+
+    const aiDetails= document.getElementById('ai-details');
+        aiDetails.innerHTML=`
+        
+        `
 }
 
+/* <div class="p-3">
+        <p class="fs-2 text-center">${info.description? info.description: 'Description Unavailable'}</p>
+        <div class="fs-4 d-flex justify-content-center">
+            <div class="p-3 text-center text-success fw-semibold">
+                <p>${info.pricing[0].price? info.pricing[0].price: 'Free of Cost/ Basic'}</p>
+            </div>
+            <div class="p-3 text-center text-primary fw-semibold">
+                <p>${info.pricing[1].price? info.pricing[1].price: 'Free of Cost/ Pro'}</p>
+            </div>
+            <div class="p-3 text-center text-warning fw-semibold">
+                <p>${info.pricing[2].price? info.pricing[2].price: 'Free of Cost/ Enterprize'}</p>
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <h3 class="fs-2 fw-semibold">Features</h3>
+                <ul>
+                    <li>${info.features[1].feature_name? info.features[1].feature_name: 'No Data Found'}</li>
+                    <li>${info.features[2].feature_name? info.features[2].feature_name: 'No Data Found'}</li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="fs-2 fw-semibold">Integrations </h3>
+                <ul>
+                    <li>${info.integrations[0].price? info.integrations[0].price: 'No Data Found'}</li>
+                    <li>${info.integrations[1].price? info.integrations[1].price: 'No Data Found'}</li>
+                    <li>${info.integrations[2].price? info.integrations[2].price: 'No Data Found'}</li>
+                </ul>
+            </div>
+        </div>
+        </div>
+        <div class="p-3">
+            <img src="${info.image_link[0]}" alt="">
+        </div> */
