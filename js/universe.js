@@ -1,5 +1,4 @@
 //Fetch operation using async await keywords
-
 const loadAiInformation= async(dataLimit)=> {
     try{
         const url= `https://openapi.programming-hero.com/api/ai/tools`;
@@ -18,9 +17,8 @@ const displayAiInformation= (info, dataLimit)=>{
     // console.log(info);
     
     const seeMoreButton= document.getElementById('see-more-button');
-;
 
-
+    //Restricting data upto 6
     if(info.length>6 && dataLimit){
         info= info.slice(0, 6);
     }
@@ -28,10 +26,9 @@ const displayAiInformation= (info, dataLimit)=>{
         seeMoreButton.classList.add('d-none');
     }
 
-   
-
     const cardContainer= document.getElementById('card-container');
     
+    //Fetching each data
     info.forEach(data => {
         // console.log(data);
 
@@ -85,11 +82,11 @@ document.getElementById('see-more-button').addEventListener('click', function(){
 
 
 
+
 //Fetch operation using id parameter
 const loadAiInformationById= async(id)=> {
     try{
         const url= `https://openapi.programming-hero.com/api/ai/tool/${id}`;
-
         const res= await fetch(url);
         const data= await res.json();
         displayAiInformationById(data.data);
@@ -103,7 +100,7 @@ const loadAiInformationById= async(id)=> {
 //Display single fetched data by id
 const displayAiInformationById= (info)=>{
     console.log(info);
-    console.log(info.integrations);
+    console.log(info.features);
 
     const aiDetails= document.getElementById('ai-details');
         aiDetails.innerHTML=`
@@ -128,9 +125,8 @@ const displayAiInformationById= (info)=>{
                         <div class=" p-2">
                             <h3 class="fs-3 fw-semibold">Features</h3>
                             <ul id="feature">
-                            <li>${info.features[1].feature_name? info.features[1].feature_name: 'No Data Found'}</li>
-                            <li>${info.features[2].feature_name? info.features[2].feature_name: 'No Data Found'}</li>
-                            <li>${info.features[3].feature_name? info.features[3].feature_name: 'No Data Found'}</li>   
+                            
+                            
                             </ul>
                         </div>
 
@@ -154,7 +150,17 @@ const displayAiInformationById= (info)=>{
                         <p>${info.input_output_examples? info.input_output_examples[0].output: 'No! Not Yet! Take a break!!!'}</p>
                     </div>
         `
+        
+        //Pushing list items into feature div
+        const feature= document.getElementById('feature');
+        for (let i=0 ; i< Object.keys(info.features).length; i++){     
+            const listItem= document.createElement('li');      
+            listItem.innerText= `${Object.values(info.features)[i].feature_name}`
+            feature.appendChild(listItem);
+        }
 
+        
+        //Pushing list items into integration div
         const integration= document.getElementById('integration');
         if(info.integrations!== null){
             for (let i=0 ; i< info.integrations.length; i++){     
@@ -170,6 +176,7 @@ const displayAiInformationById= (info)=>{
             integration.appendChild(listItem);
         }
        
+        //Pushing data into btn-accuracy
         const btnAccuracy= document.getElementById('btn-accuracy');
         const accuracyDiv= document.createElement('div');
         accuracyDiv.classList.add('bg-danger', 'text-white', 'py-1', 'px-3', 'rounded-2', 'mt-2')
@@ -181,4 +188,10 @@ const displayAiInformationById= (info)=>{
         }
 }
 
+//Loading information into the browser
 loadAiInformation(6);
+
+
+
+
+{/* <li>${info.features[1].feature_name? info.features[1].feature_name: 'No Data Found'}</li> */}
