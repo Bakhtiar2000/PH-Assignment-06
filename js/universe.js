@@ -1,30 +1,30 @@
 //Fetch operation using async await keywords
 
-const loadAiInformation= async()=> {
+const loadAiInformation= async(dataLimit)=> {
     try{
         const url= `https://openapi.programming-hero.com/api/ai/tools`;
 
         const res= await fetch(url);
         const data= await res.json();
-        displayAiInformation(data.data.tools);
+        displayAiInformation(data.data.tools, dataLimit);
     }
     catch(error){
         console.log(error);
     }
 }
 
-const displayAiInformation= (info)=>{
+const displayAiInformation= (info, dataLimit)=>{
     const cardContainer= document.getElementById('card-container');
     const seeMoreButton= document.getElementById('see-more-button')
 
-    if(info.length>6){
+    if(info.length>6 && dataLimit){
         info= info.slice(0, 6);
     }
     else{
         seeMoreButton.classList.add('d-none');
     }
     info.forEach(data => {
-        // console.log(data.id);
+        // console.log(data);
         
         const boxDiv= document.createElement('div');
         boxDiv.classList.add('col');
@@ -55,16 +55,6 @@ const displayAiInformation= (info)=>{
     toggleSpinner(false);
 }
 
-document.getElementById('date-button').addEventListener('click', function(){
-   
-})
-
-document.getElementById('see-more-button').addEventListener('click', function(){
-    toggleSpinner(true);
-
-    loadAiInformation();
-})
-
 const toggleSpinner = isLoading => {
     const spinnerSection = document.getElementById('spinner');
     if (isLoading) {
@@ -75,7 +65,18 @@ const toggleSpinner = isLoading => {
     }
 }
 
-loadAiInformation();
+// document.getElementById('date-button').addEventListener('click', function(){
+   
+// })
+
+document.getElementById('see-more-button').addEventListener('click', function(){
+    toggleSpinner(true);
+    const cardContainer= document.getElementById('card-container');
+    cardContainer.textContent= '';
+    loadAiInformation();
+})
+
+
 
 
 
@@ -117,18 +118,16 @@ const displayAiInformationById= (info)=>{
                     <div class="mt-3 d-flex justify-content-around gap-3 text-start">
                         <div class=" p-2">
                             <h3 class="fs-3 fw-semibold">Features</h3>
-                            <ul>
-                                <li>${info.features[1].feature_name? info.features[1].feature_name: 'No Data Found'}</li>
-                                <li>${info.features[2].feature_name? info.features[2].feature_name: 'No Data Found'}</li>
-                                <li>${info.features[3].feature_name? info.features[3].feature_name: 'No Data Found'}</li>
+                            <ul id="feature">
+                               
+                                
                             </ul>
                         </div>
                         <div class=" p-2">
                             <h3 class="fs-3 fw-semibold">Integrations </h3>
-                            <ul>
-                                <li>${info.integrations[0]? info.integrations[0]: 'No Data Found'}</li>
-                                <li>${info.integrations[1]? info.integrations[1]: 'No Data Found'}</li>
-                                <li>${info.integrations[2]? info.integrations[2]: 'No Data Found'}</li>
+                            <ul id="integration">
+                                
+
                             </ul>
                         </div>
                     </div>
@@ -142,4 +141,33 @@ const displayAiInformationById= (info)=>{
                         <p>${info.input_output_examples[1].output? info.input_output_examples[0].output: 'No! Not Yet! Take a break!!!'}</p>
                     </div>
         `
+    const feature= document.getElementById('feature');
+    const integration= document.getElementById('integration');
+        for (let i=0 ; i< info.features.length; i++){
+            const listItem1= document.getElementById('li');
+            listItem1.innerHTML=`
+            ${info.features[i].feature_name? info.features[i].feature_name: 'No Data Found'}
+            `
+            feature.appendChild(listItem1);
+        }
+        for (let i=0 ; i< info.integrations.length; i++){
+            const listItem2= document.getElementById('li');
+            listItem2.innerHTML=`
+            ${info.integrations[i]? info.integrations[i]: 'No Data Found'}
+            `
+            integration.appendChild(listItem2);
+        }
 }
+
+
+loadAiInformation(6);
+
+
+{/* <li>${info.features[1].feature_name? info.features[1].feature_name: 'No Data Found'}</li>
+<li>${info.features[2].feature_name? info.features[2].feature_name: 'No Data Found'}</li>
+<li>${info.features[3].feature_name? info.features[3].feature_name: 'No Data Found'}</li>
+
+
+<li>${info.integrations[0]? info.integrations[0]: 'No Data Found'}</li>
+<li>${info.integrations[1]? info.integrations[1]: 'No Data Found'}</li>
+<li>${info.integrations[2]? info.integrations[2]: 'No Data Found'}</li> */}
