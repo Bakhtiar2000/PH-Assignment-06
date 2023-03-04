@@ -94,7 +94,7 @@ const displayAiInformationById = (info) => {
     aiDetails.innerHTML = `
         <div class="border border-danger-subtle rounded-2 p-3" style="width: 100%; background-color: #f5dfcf57;">
                     <p class="fs-4 fw-bold text-center">${info.description ? info.description : 'Description Unavailable'}</p>
-                    <div class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="d-flex justify-content-center align-items-center gap-2 gap-md-3">
                         <div class="rounded-2 bg-white p-1 p-md-3 text-center text-success fw-semibold">
                             <p>${info.pricing ? info.pricing[0].price : 'Free of Cost/'}</p>
                             <p>${info.pricing ? info.pricing[0].plan : 'Basic'}</p>
