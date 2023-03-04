@@ -15,6 +15,7 @@ const loadAiInformation = (dataLimit) => {
 const displayAiInformation = (info, dataLimit, sortDataByDate) => {
 
     const seeMoreButton = document.getElementById('see-more-button');
+    const cardContainer = document.getElementById('card-container');
 
     //Restricting data upto 6
     if (info.length > 6 && dataLimit) {
@@ -24,24 +25,24 @@ const displayAiInformation = (info, dataLimit, sortDataByDate) => {
         seeMoreButton.classList.add('d-none');
     }
 
-    const cardContainer = document.getElementById('card-container');
-
+   //Sorting data by Date
     document.getElementById('date-button').addEventListener('click', async () => {;
         const sortedData = info.sort((a, b) => new Date(a.published_in) - new Date(b.published_in));
         toggleSpinner(true);
         const cardContainer = document.getElementById('card-container');
         cardContainer.textContent = '';
-        
+
+        //Fetching each data sorting by date 
         info.forEach(sortedData => {
-        insertData(sortedData);
+        processData(sortedData);
         toggleSpinner(false);
         return;
         });
     });
 
-    //Fetching each data
+    //Fetching each data without sorting by date 
     info.forEach(data => {
-        insertData(data);
+        processData(data);
         toggleSpinner(false);
     });
 }
@@ -176,4 +177,4 @@ const displayAiInformationById = (info) => {
 }
 
 //Loading information into the browser
-loadAiInformation(6)
+loadAiInformation(6);
