@@ -13,9 +13,13 @@ const loadAiInformation= async(dataLimit)=> {
     }
 }
 
+//Display all fetched data
 const displayAiInformation= (info, dataLimit)=>{
-    const cardContainer= document.getElementById('card-container');
-    const seeMoreButton= document.getElementById('see-more-button')
+    // console.log(info);
+    
+    const seeMoreButton= document.getElementById('see-more-button');
+;
+
 
     if(info.length>6 && dataLimit){
         info= info.slice(0, 6);
@@ -23,10 +27,15 @@ const displayAiInformation= (info, dataLimit)=>{
     else{
         seeMoreButton.classList.add('d-none');
     }
+
+   
+
+    const cardContainer= document.getElementById('card-container');
+    
     info.forEach(data => {
         // console.log(data);
-        
-        const boxDiv= document.createElement('div');
+
+        const boxDiv= document.createElement('div');       
         boxDiv.classList.add('col');
         boxDiv.innerHTML=`
         <div class="col">
@@ -55,6 +64,7 @@ const displayAiInformation= (info, dataLimit)=>{
     toggleSpinner(false);
 }
 
+// Spinner
 const toggleSpinner = isLoading => {
     const spinnerSection = document.getElementById('spinner');
     if (isLoading) {
@@ -65,10 +75,7 @@ const toggleSpinner = isLoading => {
     }
 }
 
-// document.getElementById('date-button').addEventListener('click', function(){
-   
-// })
-
+//See more button
 document.getElementById('see-more-button').addEventListener('click', function(){
     toggleSpinner(true);
     const cardContainer= document.getElementById('card-container');
@@ -78,8 +85,7 @@ document.getElementById('see-more-button').addEventListener('click', function(){
 
 
 
-
-
+//Fetch operation using id parameter
 const loadAiInformationById= async(id)=> {
     try{
         const url= `https://openapi.programming-hero.com/api/ai/tool/${id}`;
@@ -93,8 +99,11 @@ const loadAiInformationById= async(id)=> {
     }
 }
 
+
+//Display single fetched data by id
 const displayAiInformationById= (info)=>{
     console.log(info);
+    console.log(info.integrations);
 
     const aiDetails= document.getElementById('ai-details');
         aiDetails.innerHTML=`
@@ -102,16 +111,16 @@ const displayAiInformationById= (info)=>{
                     <p class="fs-4 fw-bold text-center">${info.description? info.description: 'Description Unavailable'}</p>
                     <div class="d-flex justify-content-center align-items-center gap-3">
                         <div class="rounded-2 bg-white p-1 p-md-3 text-center text-success fw-semibold">
-                            <p>${info.pricing[0].price? info.pricing[0].price: 'Free of Cost/'}</p>
-                            <p>${info.pricing[0].plan? info.pricing[0].plan: 'Basic'}</p>
+                            <p>${info.pricing? info.pricing[0].price: 'Free of Cost/'}</p>
+                            <p>${info.pricing? info.pricing[0].plan: 'Basic'}</p>
                         </div>
                         <div class="rounded-2 bg-white  p-1 p-md-3 text-center text-primary fw-semibold">
-                            <p>${info.pricing[1].price? info.pricing[1].price: 'Free of Cost/'}</p>
-                            <p>${info.pricing[1].plan? info.pricing[1].plan: 'Pro'}</p>
+                            <p>${info.pricing? info.pricing[1].price: 'Free of Cost/'}</p>
+                            <p>${info.pricing? info.pricing[1].plan: 'Pro'}</p>
                         </div>
                         <div class="rounded-2 bg-white  p-1 p-md-3 text-center text-warning fw-semibold">
-                            <p>${info.pricing[2].price? info.pricing[2].price: 'Free of Cost/'}</p>
-                            <p>${info.pricing[2].plan? info.pricing[2].plan: 'Enterprise'}</p>
+                            <p>${info.pricing? info.pricing[2].price: 'Free of Cost/'}</p>
+                            <p>${info.pricing? info.pricing[2].plan: 'Enterprise'}</p>
                         </div>
                     </div>
             
@@ -119,10 +128,12 @@ const displayAiInformationById= (info)=>{
                         <div class=" p-2">
                             <h3 class="fs-3 fw-semibold">Features</h3>
                             <ul id="feature">
-                               
-                                
+                            <li>${info.features[1].feature_name? info.features[1].feature_name: 'No Data Found'}</li>
+                            <li>${info.features[2].feature_name? info.features[2].feature_name: 'No Data Found'}</li>
+                            <li>${info.features[3].feature_name? info.features[3].feature_name: 'No Data Found'}</li>   
                             </ul>
                         </div>
+
                         <div class=" p-2">
                             <h3 class="fs-3 fw-semibold">Integrations </h3>
                             <ul id="integration">
@@ -135,39 +146,39 @@ const displayAiInformationById= (info)=>{
                 <div class="border border-secondary-subtle rounded-2 p-3" style="width: 100%">
                         <div class="d-flex justify-content-center position-relative">
                             <img src="${info.image_link[0]}" class="img-fluid rounded-2">
-                            <div style="top: 1%; right:1%; transform: translate(-1%, -1%);" class="bg-danger text-white py-1 px-3 rounded-2 mt-2 position-absolute">${info.accuracy.score*100}% Accuracy</div>
+                            <div style="position:absolute; top: 1%; right:1%; transform: translate(-1%, -1%);" id="btn-accuracy" >
+                            
+                            </div>
                         </div>
-                        <h3 class="mt-3 fs-3 fw-semibold">${info.input_output_examples[0].input? info.input_output_examples[0].input: 'No examples to show'}</h3>
-                        <p>${info.input_output_examples[1].output? info.input_output_examples[0].output: 'No! Not Yet! Take a break!!!'}</p>
+                        <h3 class="mt-3 fs-3 fw-semibold">${info.input_output_examples? info.input_output_examples[0].input: 'Can you give any example?'}</h3>
+                        <p>${info.input_output_examples? info.input_output_examples[0].output: 'No! Not Yet! Take a break!!!'}</p>
                     </div>
         `
-    const feature= document.getElementById('feature');
-    const integration= document.getElementById('integration');
-        for (let i=0 ; i< info.features.length; i++){
-            const listItem1= document.getElementById('li');
-            listItem1.innerHTML=`
-            ${info.features[i].feature_name? info.features[i].feature_name: 'No Data Found'}
-            `
-            feature.appendChild(listItem1);
+
+        const integration= document.getElementById('integration');
+        if(info.integrations!== null){
+            for (let i=0 ; i< info.integrations.length; i++){     
+                const listItem= document.createElement('li');      
+                listItem.innerText= `${info.integrations[i]}`
+                integration.appendChild(listItem);
+            }
         }
-        for (let i=0 ; i< info.integrations.length; i++){
-            const listItem2= document.getElementById('li');
-            listItem2.innerHTML=`
-            ${info.integrations[i]? info.integrations[i]: 'No Data Found'}
+        else{
+            const listItem= document.createElement('li');
+            listItem.innerText= `No Data Found`
+            console.log('No data found');
+            integration.appendChild(listItem);
+        }
+       
+        const btnAccuracy= document.getElementById('btn-accuracy');
+        const accuracyDiv= document.createElement('div');
+        accuracyDiv.classList.add('bg-danger', 'text-white', 'py-1', 'px-3', 'rounded-2', 'mt-2')
+        if(info.accuracy.score!== null){
+            accuracyDiv.innerHTML=`
+            ${info.accuracy.score*100+' % Accuracy'}
             `
-            integration.appendChild(listItem2);
+            btnAccuracy.appendChild(accuracyDiv);
         }
 }
 
-
 loadAiInformation(6);
-
-
-{/* <li>${info.features[1].feature_name? info.features[1].feature_name: 'No Data Found'}</li>
-<li>${info.features[2].feature_name? info.features[2].feature_name: 'No Data Found'}</li>
-<li>${info.features[3].feature_name? info.features[3].feature_name: 'No Data Found'}</li>
-
-
-<li>${info.integrations[0]? info.integrations[0]: 'No Data Found'}</li>
-<li>${info.integrations[1]? info.integrations[1]: 'No Data Found'}</li>
-<li>${info.integrations[2]? info.integrations[2]: 'No Data Found'}</li> */}
